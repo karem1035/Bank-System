@@ -159,6 +159,9 @@ btnLogin.addEventListener('click', function (e) {
   }
 });
 
+/**
+ * Transferring money between accounts
+ */
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
 
@@ -177,4 +180,23 @@ btnTransfer.addEventListener('click', function (e) {
     reciverAcc.movements.push(amount);
     updateUi(currentAccount);
   }
+});
+
+// Delete account
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    accounts.splice(index, 1);
+    containerApp.style.opacity = '0';
+  } else {
+    console.log('Not Deleted');
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
 });
