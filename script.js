@@ -65,9 +65,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
  * displayMovements - displays the movements of a user on the DOM
  * @movements - account.movements
  */
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach((mov, i) => {
+
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `<div class="movements__row">
@@ -213,4 +216,14 @@ btnLoan.addEventListener('click', function (e) {
     updateUi(currentAccount);
     inputLoanAmount.value = '';
   }
+});
+
+/**
+ * Make a sorted button to sort the transactions
+ */
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
 });
