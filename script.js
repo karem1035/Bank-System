@@ -1,7 +1,6 @@
 'use strict';
 
 /////////////////////////////////////////////////
-/////////////////////////////////////////////////
 // BANKIST APP
 
 // Data
@@ -92,7 +91,7 @@ const createUserName = function (accs) {
     acc.username = acc.owner
       .toLowerCase()
       .split(' ')
-      .map(name => name[0])
+      .map((name) => name[0])
       .join('');
   });
 };
@@ -111,19 +110,19 @@ const calcPrintBalance = function (acc) {
  */
 const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
-    .filter(mov => mov > 0)
+    .filter((mov) => mov > 0)
     .reduce((acc, curr) => acc + curr, 0);
   labelSumIn.textContent = `${incomes}€`;
 
   const out = acc.movements
-    .filter(mov => mov < 0)
+    .filter((mov) => mov < 0)
     .reduce((acc, curr) => acc + curr, 0);
   labelSumOut.textContent = `-${Math.abs(out)}€`;
 
   const interest = acc.movements
-    .filter(mov => mov > 0)
-    .map(deposite => (deposite * acc.interestRate) / 100)
-    .filter(int => int > 1)
+    .filter((mov) => mov > 0)
+    .map((deposite) => (deposite * acc.interestRate) / 100)
+    .filter((int) => int > 1)
     .reduce((acc, int) => acc + int);
 
   labelSumInterest.textContent = `${interest}€`;
@@ -146,7 +145,7 @@ btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
 
   currentAccount = accounts.find(
-    acc => acc.username === inputLoginUsername.value
+    (acc) => acc.username === inputLoginUsername.value
   );
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Display UI
@@ -170,7 +169,7 @@ btnTransfer.addEventListener('click', function (e) {
 
   const amount = Number(inputTransferAmount.value);
   const reciverAcc = accounts.find(
-    acc => acc.username === inputTransferTo.value
+    (acc) => acc.username === inputTransferTo.value
   );
   inputTransferAmount.value = inputTransferTo.value = '';
   if (
@@ -194,7 +193,7 @@ btnClose.addEventListener('click', function (e) {
     Number(inputClosePin.value) === currentAccount.pin
   ) {
     const index = accounts.findIndex(
-      acc => acc.username === currentAccount.username
+      (acc) => acc.username === currentAccount.username
     );
     accounts.splice(index, 1);
     containerApp.style.opacity = '0';
@@ -211,7 +210,10 @@ btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
 
   const amount = Number(inputLoanAmount.value);
-  if (amount > 0 && currentAccount.movements.some(mov => mov >= amount / 10)) {
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount / 10)
+  ) {
     currentAccount.movements.push(amount);
     updateUi(currentAccount);
     inputLoanAmount.value = '';
