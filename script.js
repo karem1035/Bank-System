@@ -11,14 +11,14 @@ const account1 = {
   pin: 1111,
 
   movementsDates: [
-    '2019-11-18T21:31:17.178Z',
-    '2019-12-23T07:42:02.383Z',
-    '2020-01-28T09:15:04.904Z',
-    '2020-04-01T10:17:24.185Z',
-    '2020-05-08T14:11:59.604Z',
-    '2020-07-26T17:01:17.194Z',
-    '2020-07-28T23:36:17.929Z',
-    '2020-08-01T10:51:36.790Z',
+    '2024-03-12T21:31:17.178Z',
+    '2023-12-23T07:42:02.383Z',
+    '2024-01-28T09:15:04.904Z',
+    '2023-04-01T10:17:24.185Z',
+    '2023-05-08T14:11:59.604Z',
+    '2023-07-26T17:01:17.194Z',
+    '2023-07-28T23:36:17.929Z',
+    '2023-08-01T10:51:36.790Z',
   ],
   currency: 'EUR',
   locale: 'pt-PT', // de-DE
@@ -31,14 +31,14 @@ const account2 = {
   pin: 2222,
 
   movementsDates: [
-    '2019-11-01T13:15:33.035Z',
-    '2019-11-30T09:48:16.867Z',
-    '2019-12-25T06:04:23.907Z',
-    '2020-01-25T14:18:46.235Z',
-    '2020-02-05T16:33:06.386Z',
-    '2020-04-10T14:43:26.374Z',
-    '2020-06-25T18:49:59.371Z',
-    '2020-07-26T12:01:20.894Z',
+    '2013-11-01T13:15:33.035Z',
+    '2013-11-30T09:48:16.867Z',
+    '2013-12-25T06:04:23.907Z',
+    '2024-01-25T14:18:46.235Z',
+    '2024-02-05T16:33:06.386Z',
+    '2023-04-10T14:43:26.374Z',
+    '2023-06-25T18:49:59.371Z',
+    '2023-07-26T12:01:20.894Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -73,6 +73,26 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const formatMovementsDate = function (date) {
+  const calcDayspassed = (date1, date2) =>
+    Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
+
+  const dayesPass = calcDayspassed(new Date(), date);
+
+  if (dayesPass === 0) {
+    return 'Today';
+  } else if (dayesPass === 1) {
+    return 'Yester Day';
+  } else if (dayesPass <= 7) {
+    return `${dayesPass} days ago`;
+  } else {
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+};
+
 /**
  * displayMovements - displays the movements of a user on the DOM
  * @movements - account.movements
@@ -87,11 +107,7 @@ const displayMovements = function (acc, sort = false) {
   movs.forEach((mov, i) => {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const date = new Date(acc.movementsDates[i]);
-
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = date.getFullYear();
-    const displayDate = `${day}/${month}/${year}`;
+    const displayDate = formatMovementsDate(date);
 
     const html = `<div class="movements__row">
       <div class="movements__type movements__type--${type}">${
@@ -264,5 +280,7 @@ btnSort.addEventListener('click', function (e) {
   sorted = !sorted;
 });
 
-console.log(Number.parseInt('30px', 10));
-console.log(parseFloat('3.50px', 10));
+// /////////////////////////////////
+
+const future1 = new Date(2037, 5, 10, 10, 10, 10);
+const future2 = new Date(2037, 5, 20, 10, 10, 10);
