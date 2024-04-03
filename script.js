@@ -281,10 +281,12 @@ btnLoan.addEventListener('click', function (e) {
     amount > 0 &&
     currentAccount.movements.some((mov) => mov >= amount / 10)
   ) {
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date().toISOString());
-    updateUi(currentAccount);
-    inputLoanAmount.value = '';
+    setTimeout(() => {
+      currentAccount.movements.push(amount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updateUi(currentAccount);
+      inputLoanAmount.value = '';
+    }, 3000);
   }
 });
 
@@ -300,19 +302,14 @@ btnSort.addEventListener('click', function (e) {
 
 // /////////////////////////////////
 
-const future1 = new Date(2037, 5, 10, 10, 10, 10);
-const future2 = new Date(2037, 5, 20, 10, 10, 10);
+const ingredients = ['olives', 'spinach'];
 
-const num = 51545453.23;
-
-const options = {
-  style: 'currency',
-  unit: 'mile-per-hour',
-  currency: 'EUR',
-  // useGrouping: false,
-};
-
-console.log(
-  navigator.language,
-  new Intl.NumberFormat(navigator.language, options).format(num)
+const pizzaTimer = setTimeout(
+  (arg1) => {
+    console.log(`Here is your pizza mr ${arg1}`);
+  },
+  3000,
+  ...ingredients
 );
+
+if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
