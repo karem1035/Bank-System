@@ -134,6 +134,30 @@ const displayMovements = function (acc, sort = false) {
   });
 };
 
+const startLogOutTimer = function () {
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+
+    labelTimer.textContent = `${min}:${sec}`;
+    console.log(min);
+
+    if (time === 0) {
+      clearInterval(timer);
+      labelWelcome.textContent = 'Log in to get started';
+      containerApp.style.opacity = 0;
+    }
+    time--;
+  };
+  // Set the time
+  let time = 600;
+
+  // Call the timer every sec
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
 /**
  * adds a username value to the accounts array objs
  */
@@ -195,7 +219,7 @@ const updateUi = function (acc) {
 };
 
 // Event Handler
-let currentAccount;
+let currentAccount, timer;
 
 // Date
 
@@ -247,6 +271,9 @@ btnTransfer.addEventListener('click', function (e) {
     currentAccount.movementsDates.push(new Date().toISOString());
     reciverAcc.movements.push(amount);
     reciverAcc.movementsDates.push(new Date().toISOString());
+
+    if (timer) clearInterval(timer);
+    timer = startLogOutTimer();
     updateUi(currentAccount);
   }
 });
@@ -302,14 +329,3 @@ btnSort.addEventListener('click', function (e) {
 
 // /////////////////////////////////
 
-const ingredients = ['olives', 'spinach'];
-
-const pizzaTimer = setTimeout(
-  (arg1) => {
-    console.log(`Here is your pizza mr ${arg1}`);
-  },
-  3000,
-  ...ingredients
-);
-
-if (ingredients.includes('spinach')) clearTimeout(pizzaTimer);
