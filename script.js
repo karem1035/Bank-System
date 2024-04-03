@@ -94,6 +94,16 @@ const formatMovementsDate = function (date) {
 };
 
 /**
+ * return a formatted currency
+ */
+const formatCur = function (value, locale, currency) {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: currency,
+  }).format(value);
+};
+
+/**
  * displayMovements - displays the movements of a user on the DOM
  * @movements - account.movements
  */
@@ -109,12 +119,7 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatMovementsDate(date);
 
-    const formattedMov = new Intl.NumberFormat(acc.locale, {
-      style: 'currency',
-      currency: acc.currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(mov);
+    const formattedMov = formatCur(mov, acc.locale, acc.currency);
 
     const html = `<div class="movements__row">
       <div class="movements__type movements__type--${type}">${
@@ -148,7 +153,8 @@ createUserName(accounts);
  */
 const calcPrintBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, curr) => (acc += curr), 0);
-  labelBalance.innerHTML = `${acc.balance.toFixed(2)} €`;
+  const formattedBal = formatCur(acc.balance, acc.locale, acc.currency);
+  labelBalance.innerHTML = `${formattedBal}`;
 };
 
 /**
@@ -158,12 +164,15 @@ const calcDisplaySummary = function (acc) {
   const incomes = acc.movements
     .filter((mov) => mov > 0)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumIn.textContent = `${incomes.toFixed(2)}€`;
+  const incFormatted = formatCur(incomes, acc.locale, acc.currency);
+
+  labelSumIn.textContent = `${incFormatted}`;
 
   const out = acc.movements
     .filter((mov) => mov < 0)
     .reduce((acc, curr) => acc + curr, 0);
-  labelSumOut.textContent = `-${Math.abs(out).toFixed(2)}€`;
+  const outFormatted = formatCur(out, acc.locale, acc.currency);
+  labelSumOut.textContent = `${outFormatted}`;
 
   const interest = acc.movements
     .filter((mov) => mov > 0)
@@ -171,7 +180,9 @@ const calcDisplaySummary = function (acc) {
     .filter((int) => int > 1)
     .reduce((acc, int) => acc + int);
 
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  const intFormatted = formatCur(interest, acc.locale, acc.currency);
+
+  labelSumInterest.textContent = `${intFormatted}`;
 };
 
 const updateUi = function (acc) {
