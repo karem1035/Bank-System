@@ -109,13 +109,20 @@ const displayMovements = function (acc, sort = false) {
     const date = new Date(acc.movementsDates[i]);
     const displayDate = formatMovementsDate(date);
 
+    const formattedMov = new Intl.NumberFormat(acc.locale, {
+      style: 'currency',
+      currency: acc.currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(mov);
+
     const html = `<div class="movements__row">
       <div class="movements__type movements__type--${type}">${
       i + 1
     } ${type}</div>
           <div class="movements__date">${displayDate}</div>
 
-      <div class="movements__value">${mov.toFixed(2)}€</div>
+      <div class="movements__value">${formattedMov}</div>
     </div>`;
 
     containerMovements.insertAdjacentHTML('afterbegin', html);
@@ -284,3 +291,17 @@ btnSort.addEventListener('click', function (e) {
 
 const future1 = new Date(2037, 5, 10, 10, 10, 10);
 const future2 = new Date(2037, 5, 20, 10, 10, 10);
+
+const num = 51545453.23;
+
+const options = {
+  style: 'currency',
+  unit: 'mile-per-hour',
+  currency: 'EUR',
+  // useGrouping: false,
+};
+
+console.log(
+  navigator.language,
+  new Intl.NumberFormat(navigator.language, options).format(num)
+);
