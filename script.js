@@ -44,8 +44,63 @@ const account2 = {
   locale: 'en-US',
 };
 
-const accounts = [account1, account2];
+const account3 = {
+  owner: 'Emily Johnson',
+  movements: [1200, -300, 600, -200, 800, -100, -400],
+  interestRate: 0.8,
+  pin: 3333,
 
+  movementsDates: [
+    '2024-04-12T11:31:17.178Z',
+    '2024-04-15T09:22:02.383Z',
+    '2024-04-17T13:15:04.904Z',
+    '2024-04-19T08:47:24.185Z',
+    '2024-04-20T16:21:59.604Z',
+    '2024-04-22T18:42:17.194Z',
+    '2024-04-25T22:19:17.929Z',
+  ],
+  currency: 'GBP',
+  locale: 'en-GB',
+};
+
+const account4 = {
+  owner: 'Michael Smith',
+  movements: [2500, -800, 1000, -1500, 700, -200, 400],
+  interestRate: 1.0,
+  pin: 4444,
+
+  movementsDates: [
+    '2024-05-01T09:45:33.035Z',
+    '2024-05-03T15:28:16.867Z',
+    '2024-05-05T18:09:23.907Z',
+    '2024-05-07T10:30:46.235Z',
+    '2024-05-08T13:52:06.386Z',
+    '2024-05-10T16:07:26.374Z',
+    '2024-05-12T19:55:59.371Z',
+  ],
+  currency: 'CAD',
+  locale: 'en-CA',
+};
+const account5 = {
+  owner: 'Ahmed Ali',
+  movements: [800, -100, 200, -50, 600, -200],
+  interestRate: 1.1,
+  pin: 5555,
+
+  movementsDates: [
+    '2024-05-05T09:45:33.035Z',
+    '2024-05-06T15:28:16.867Z',
+    '2024-05-07T18:09:23.907Z',
+    '2024-05-08T10:30:46.235Z',
+    '2024-05-09T13:52:06.386Z',
+    '2024-05-10T16:07:26.374Z',
+  ],
+  currency: 'SAR',
+  locale: 'ar-SA',
+  region: 'Saudi Arabia',
+};
+
+const accounts = [account1, account2, account3, account4, account5];
 /////////////////////////////////////////////////
 // Elements
 const labelWelcome = document.querySelector('.welcome');
